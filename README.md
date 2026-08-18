@@ -205,7 +205,3 @@ To wire your own review backend, replace the fetch URL in the write-review submi
 Tested on evergreen Chrome, Firefox, Safari, and Edge. `<progress>` element styling uses vendor prefixes for WebKit/Blink and Gecko. No polyfills required.
 
 ---
-
-## License
-
-MIT — do whatever you like. Attribution appreciated but not required.
