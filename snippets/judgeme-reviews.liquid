@@ -1,0 +1,13 @@
+{%- comment -%}
+  Judge.me full review widget for product pages.
+  Usage: {% render 'judgeme-reviews', product: product %}
+  Requires the Judge.me app to be installed for reviews to render.
+{%- endcomment -%}
+
+<div class="page-width" style="padding-top:1rem; padding-bottom:1rem;">
+  <div
+    class="jdgm-widget jdgm-review-widget"
+    data-id="{{ product.id }}"
+    data-auto-install="true"
+  ></div>
+</div>

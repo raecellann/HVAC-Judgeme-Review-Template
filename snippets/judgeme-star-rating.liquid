@@ -1,0 +1,35 @@
+{%- comment -%}
+  Star rating badge for product cards, computed from custom.product_reviews metafield.
+  Usage: {% render 'judgeme-star-rating', product: card_product %}
+{%- endcomment -%}
+
+{%- assign _jsr_reviews = nil -%}
+{%- if _jsr_reviews != blank and _jsr_reviews.size > 0 -%}
+  {%- assign _jsr_total = _jsr_reviews.size -%}
+  {%- assign _jsr_ct5 = 0 -%}
+  {%- assign _jsr_ct4 = 0 -%}
+  {%- assign _jsr_ct3 = 0 -%}
+  {%- assign _jsr_ct2 = 0 -%}
+  {%- assign _jsr_ct1 = 0 -%}
+  {%- for _jsr_r in _jsr_reviews -%}
+    {%- assign _jsr_stars = _jsr_r.rating | plus: 0 -%}
+    {%- case _jsr_stars -%}
+      {%- when 5 -%}{%- assign _jsr_ct5 = _jsr_ct5 | plus: 1 -%}
+      {%- when 4 -%}{%- assign _jsr_ct4 = _jsr_ct4 | plus: 1 -%}
+      {%- when 3 -%}{%- assign _jsr_ct3 = _jsr_ct3 | plus: 1 -%}
+      {%- when 2 -%}{%- assign _jsr_ct2 = _jsr_ct2 | plus: 1 -%}
+      {%- when 1 -%}{%- assign _jsr_ct1 = _jsr_ct1 | plus: 1 -%}
+    {%- endcase -%}
+  {%- endfor -%}
+  {%- assign _jsr_w5 = _jsr_ct5 | times: 5 -%}
+  {%- assign _jsr_w4 = _jsr_ct4 | times: 4 -%}
+  {%- assign _jsr_w3 = _jsr_ct3 | times: 3 -%}
+  {%- assign _jsr_w2 = _jsr_ct2 | times: 2 -%}
+  {%- assign _jsr_wsum = _jsr_w5 | plus: _jsr_w4 | plus: _jsr_w3 | plus: _jsr_w2 | plus: _jsr_ct1 -%}
+  {%- assign _jsr_avg = _jsr_wsum | times: 1.0 | divided_by: _jsr_total | round: 1 -%}
+  <div class="hvac-star-badge" aria-label="{{ _jsr_avg }} out of 5, {{ _jsr_total }} reviews">
+    <span class="hvac-star-badge__star" aria-hidden="true">★</span>
+    <span class="hvac-star-badge__avg">{{ _jsr_avg }}</span>
+    <span class="hvac-star-badge__ct">({{ _jsr_total }})</span>
+  </div>
+{%- endif -%}

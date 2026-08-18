@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HVAC Customer Reviews — Live Preview</title>
+  <meta name="description" content="Live preview of the HVAC Judge.me review section — a drop-in Shopify template with rating summary, filters, pagination, write-a-review modal and photo lightbox.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ── Mock storefront chrome (so the review section looks like it lives on a real product page) ── -->
+  <header class="demo-header">
+    <div class="demo-header-inner">
+      <a class="demo-logo" href="#">HVAC<span>Direct</span></a>
+      <nav class="demo-nav">
+        <a href="#">Condensers</a>
+        <a href="#">Furnaces</a>
+        <a href="#">Coils</a>
+        <a href="#">Support</a>
+      </nav>
+      <div class="demo-cart">Cart (0)</div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ── Mock product panel ── -->
+    <section class="demo-product">
+      <div class="demo-product-inner">
+        <div class="demo-product-gallery" aria-hidden="true">
+          <div class="demo-product-image">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="20" width="160" height="160" rx="14" fill="#dbeafe" stroke="#1a4a80" stroke-width="3"/>
+              <rect x="40" y="55" width="120" height="90" rx="8" fill="#fff" stroke="#1a4a80" stroke-width="2"/>
+              <circle cx="100" cy="100" r="30" fill="none" stroke="#1a4a80" stroke-width="3"/>
+              <circle cx="100" cy="100" r="18" fill="none" stroke="#1a4a80" stroke-width="2"/>
+              <circle cx="100" cy="100" r="6" fill="#1a4a80"/>
+              <rect x="45" y="60" width="30" height="4" rx="2" fill="#1a4a80" opacity="0.4"/>
+              <rect x="45" y="70" width="20" height="4" rx="2" fill="#1a4a80" opacity="0.4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="demo-product-info">
+          <p class="demo-eyebrow">Goodman &middot; HVAC Direct</p>
+          <h1>Goodman 3 Ton 14.3 SEER2 Air Conditioner Condenser</h1>
+          <p class="demo-price">$1,899.00 <span class="demo-price-strike">$2,349.00</span></p>
+          <div class="demo-summary-stars" aria-label="4.9 out of 5 stars">
+            <span class="bg">★★★★★</span><span class="fg" style="width:98%">★★★★★</span>
+            <a href="#judgeme-reviews">Read 18 reviews</a>
+          </div>
+          <p class="demo-product-blurb">
+            High-efficiency single-stage residential condenser with a factory-installed
+            filter drier, environmentally sound R-410A refrigerant, and a 10-year parts
+            limited warranty. Ships in 3–5 business days.
+          </p>
+          <div class="demo-product-cta">
+            <button type="button" class="demo-add-btn">Add to Cart</button>
+            <button type="button" class="demo-fav-btn" aria-label="Save for later">♥</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Review section (mirrors sections/judgeme-reviews-section.liquid) ── -->
+    <span id="judgeme-reviews" style="display:block;height:0"></span>
+    <div id="jmr-demo" class="jmr-page-width">
+
+      <!-- Header -->
+      <div class="jmr-header">
+        <div>
+          <h2>Customer Reviews</h2>
+          <p class="jmr-header-sub">Real feedback from verified HVAC buyers</p>
+        </div>
+        <div class="jmr-verified-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+          Verified Purchases Only
+        </div>
+      </div>
+
+      <!-- Rating summary -->
+      <div class="jmr-summary">
+        <div class="jmr-overall">
+          <div class="jmr-big-num">4.9</div>
+          <div class="jmr-star-display" aria-label="4.9 out of 5 stars">
+            <div class="bg">★★★★★</div>
+            <div class="fg" aria-hidden="true" style="width:98%">★★★★★</div>
+          </div>
+          <div class="jmr-out-of">out of 5</div>
+          <div class="jmr-total-ct">Based on 18 reviews</div>
+        </div>
+        <div class="jmr-breakdown">
+          <div class="jmr-bar-row">
+            <span class="jmr-bar-lbl">5 <span class="s">★</span></span>
+            <progress class="jmr-bar" value="94" max="100"></progress>
+            <span class="jmr-bar-meta"><span class="jmr-pct">94%</span> <span class="jmr-ct">(17)</span></span>
+          </div>
+          <div class="jmr-bar-row">
+            <span class="jmr-bar-lbl">4 <span class="s">★</span></span>
+            <progress class="jmr-bar" value="6" max="100"></progress>
+            <span class="jmr-bar-meta"><span class="jmr-pct">6%</span> <span class="jmr-ct">(1)</span></span>
+          </div>
+          <div class="jmr-bar-row">
+            <span class="jmr-bar-lbl">3 <span class="s">★</span></span>
+            <progress class="jmr-bar" value="0" max="100"></progress>
+            <span class="jmr-bar-meta"><span class="jmr-pct">0%</span> <span class="jmr-ct">(0)</span></span>
+          </div>
+          <div class="jmr-bar-row">
+            <span class="jmr-bar-lbl">2 <span class="s">★</span></span>
+            <progress class="jmr-bar" value="0" max="100"></progress>
+            <span class="jmr-bar-meta"><span class="jmr-pct">0%</span> <span class="jmr-ct">(0)</span></span>
+          </div>
+          <div class="jmr-bar-row">
+            <span class="jmr-bar-lbl">1 <span class="s">★</span></span>
+            <progress class="jmr-bar" value="0" max="100"></progress>
+            <span class="jmr-bar-meta"><span class="jmr-pct">0%</span> <span class="jmr-ct">(0)</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer photos -->
+      <div class="jmr-photos">
+        <div class="jmr-photos-hd">
+          <h3>Customer Photos</h3>
+          <a href="#" id="jmr-view-all-photos">View all photos &rarr;</a>
+        </div>
+        <div class="jmr-photos-row" id="jmr-photo-row">
+          <!-- Photo tiles populated by script.js -->
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="jmr-filters-outer">
+        <div class="jmr-filters" role="group" aria-label="Review filters">
+          <button class="jmr-filter-btn active" type="button" data-sort="recent">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Most Recent
+          </button>
+          <button class="jmr-filter-btn" type="button" data-sort="rated">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Highest Rated
+          </button>
+          <button class="jmr-filter-btn jmr-filter-right jmr-filters-toggle" type="button" aria-haspopup="true" aria-expanded="false" id="jmr-filter-toggle-demo">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+            <span class="jmr-filters-toggle-label">Filters</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
+
+        <div class="jmr-filter-panel" hidden id="jmr-filter-panel-demo">
+
+          <button class="jmr-acc-header" type="button" aria-expanded="false" aria-controls="jmr-acc-stars-demo">
+            <span class="jmr-filter-panel-title">Filter by Stars</span>
+            <svg class="jmr-acc-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="jmr-acc-body" id="jmr-acc-stars-demo" hidden>
+            <button class="jmr-filter-option active" type="button" data-filter-rating="">All Ratings<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+            <button class="jmr-filter-option" type="button" data-filter-rating="5"><span class="jmr-opt-stars">★★★★★</span> 5 Stars<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+            <button class="jmr-filter-option" type="button" data-filter-rating="4"><span class="jmr-opt-stars">★★★★</span> 4 Stars<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+            <button class="jmr-filter-option" type="button" data-filter-rating="3"><span class="jmr-opt-stars">★★★</span> 3 Stars<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+            <button class="jmr-filter-option" type="button" data-filter-rating="2"><span class="jmr-opt-stars">★★</span> 2 Stars<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+            <button class="jmr-filter-option" type="button" data-filter-rating="1"><span class="jmr-opt-stars">★</span> 1 Star<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+          </div>
+
+          <hr class="jmr-filter-panel-divider">
+          <button class="jmr-acc-header" type="button" aria-expanded="false" aria-controls="jmr-acc-ton-demo">
+            <span class="jmr-filter-panel-title">Filter by Tonnage</span>
+            <svg class="jmr-acc-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="jmr-acc-body" id="jmr-acc-ton-demo" hidden>
+            <button class="jmr-filter-option active" type="button" data-filter-tonnage="">All Tonnage<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+            <button class="jmr-filter-option" type="button" data-filter-tonnage="2 Ton">2 Ton<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+            <button class="jmr-filter-option" type="button" data-filter-tonnage="3 Ton">3 Ton<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+            <button class="jmr-filter-option" type="button" data-filter-tonnage="4 Ton">4 Ton<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+            <button class="jmr-filter-option" type="button" data-filter-tonnage="5 Ton">5 Ton<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+          </div>
+
+          <hr class="jmr-filter-panel-divider">
+          <button class="jmr-acc-header" type="button" aria-expanded="false" aria-controls="jmr-acc-seer-demo">
+            <span class="jmr-filter-panel-title">Filter by SEER2</span>
+            <svg class="jmr-acc-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="jmr-acc-body" id="jmr-acc-seer-demo" hidden>
+            <button class="jmr-filter-option active" type="button" data-filter-seer2="">All SEER2<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+            <button class="jmr-filter-option" type="button" data-filter-seer2="13.4 SEER2">13.4 SEER2<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+            <button class="jmr-filter-option" type="button" data-filter-seer2="14.3 SEER2">14.3 SEER2<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+            <button class="jmr-filter-option" type="button" data-filter-seer2="15.2 SEER2">15.2 SEER2<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+          </div>
+
+          <button class="jmr-filter-clear-all" type="button" id="jmr-clear-all-demo">✕ Clear all filters</button>
+
+        </div>
+      </div>
+      <div class="jmr-filter-empty" id="jmr-empty-demo">No reviews match your filter.</div>
+
+      <!-- Reviews list (populated by script.js) -->
+      <div class="jmr-reviews-list" id="jmr-list-demo"></div>
+
+      <!-- Pagination -->
+      <div class="jmr-pagination">
+        <button class="jmr-page-btn" id="jmr-prev-demo" type="button">&#8592; Previous</button>
+        <span class="jmr-page-info" id="jmr-info-demo">Page 1 of 1</span>
+        <button class="jmr-page-btn" id="jmr-next-demo" type="button">Next &#8594;</button>
+      </div>
+
+      <!-- Write a review CTA -->
+      <div class="jmr-cta">
+        <div class="jmr-cta-ico" aria-hidden="true">
+          <svg viewBox="0 0 72 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22 4h36a8 8 0 0 1 8 8v18a8 8 0 0 1-8 8H42l-6 8-6-8H22a8 8 0 0 1-8-8V12a8 8 0 0 1 8-8z" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5"/>
+            <circle cx="30" cy="23" r="3" fill="#2563eb"/>
+            <circle cx="38" cy="23" r="3" fill="#2563eb"/>
+            <circle cx="46" cy="23" r="3" fill="#2563eb"/>
+            <path d="M6 24h26a6 6 0 0 1 6 6v14a6 6 0 0 1-6 6H20l-5 7-5-7H6a6 6 0 0 1-6-6V30a6 6 0 0 1 6-6z" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+            <circle cx="13" cy="37" r="2.5" fill="#2563eb"/>
+            <circle cx="19" cy="37" r="2.5" fill="#2563eb"/>
+            <circle cx="25" cy="37" r="2.5" fill="#2563eb"/>
+          </svg>
+        </div>
+        <div class="jmr-cta-text">
+          <strong>Share your experience</strong>
+          <p>Help other homeowners make the right choice for their home comfort.</p>
+        </div>
+        <button type="button" class="jmr-cta-btn" id="jmr-wr-open-demo">Write a Review</button>
+      </div>
+
+      <!-- Write Review Modal -->
+      <div class="jmr-wr-overlay" hidden id="jmr-wr-overlay-demo" role="dialog" aria-modal="true" aria-labelledby="jmr-wr-title-demo">
+        <div class="jmr-wr-modal">
+          <div class="jmr-wr-header">
+            <div class="jmr-wr-header-left">
+              <p class="jmr-wr-title" id="jmr-wr-title-demo">Write a Review</p>
+              <p class="jmr-wr-product">Goodman 3 Ton 14.3 SEER2 Air Conditioner Condenser</p>
+            </div>
+            <button type="button" class="jmr-wr-close" id="jmr-wr-close-demo" aria-label="Close">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="jmr-wr-body" id="jmr-wr-body-demo">
+            <div>
+              <p class="jmr-wr-stars-label">Your Rating <span style="color:#ef4444">*</span></p>
+              <div class="jmr-wr-stars" id="jmr-wr-stars-demo">
+                <input type="radio" name="jmr-wr-rating-demo" id="jmr-s5-demo" value="5"><label for="jmr-s5-demo" title="5 stars">★</label>
+                <input type="radio" name="jmr-wr-rating-demo" id="jmr-s4-demo" value="4"><label for="jmr-s4-demo" title="4 stars">★</label>
+                <input type="radio" name="jmr-wr-rating-demo" id="jmr-s3-demo" value="3"><label for="jmr-s3-demo" title="3 stars">★</label>
+                <input type="radio" name="jmr-wr-rating-demo" id="jmr-s2-demo" value="2"><label for="jmr-s2-demo" title="2 stars">★</label>
+                <input type="radio" name="jmr-wr-rating-demo" id="jmr-s1-demo" value="1"><label for="jmr-s1-demo" title="1 star">★</label>
+              </div>
+            </div>
+            <div class="jmr-wr-row">
+              <div class="jmr-wr-field">
+                <label for="jmr-wr-name-demo">Name <span style="color:#ef4444">*</span></label>
+                <input type="text" id="jmr-wr-name-demo" placeholder="Your name" autocomplete="name">
+              </div>
+              <div class="jmr-wr-field">
+                <label for="jmr-wr-email-demo">Email <span style="color:#ef4444">*</span></label>
+                <input type="email" id="jmr-wr-email-demo" placeholder="your@email.com" autocomplete="email">
+              </div>
+            </div>
+            <div class="jmr-wr-field">
+              <label for="jmr-wr-review-title-demo">Review Title</label>
+              <input type="text" id="jmr-wr-review-title-demo" placeholder="Summarise your experience">
+            </div>
+            <div class="jmr-wr-field">
+              <label for="jmr-wr-body-txt-demo">Your Review <span style="color:#ef4444">*</span></label>
+              <textarea id="jmr-wr-body-txt-demo" placeholder="Tell others what you think about this product..."></textarea>
+            </div>
+            <p class="jmr-wr-error" id="jmr-wr-error-demo"></p>
+          </div>
+          <div class="jmr-wr-success" id="jmr-wr-success-demo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <h3>Thank you for your review!</h3>
+            <p>Your review has been submitted and is pending approval.</p>
+          </div>
+          <div class="jmr-wr-footer" id="jmr-wr-footer-demo">
+            <button type="button" class="jmr-wr-cancel" id="jmr-wr-cancel-demo">Cancel</button>
+            <button type="button" class="jmr-wr-submit" id="jmr-wr-submit-demo">Submit Review</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Photo lightbox -->
+      <div class="jmr-lb-overlay" hidden id="jmr-lb-overlay-demo" role="dialog" aria-modal="true" aria-label="Customer photo viewer">
+        <button class="jmr-lb-close" id="jmr-lb-close-demo" aria-label="Close photo viewer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <button class="jmr-lb-nav jmr-lb-prev" id="jmr-lb-prev-demo" aria-label="Previous photo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="jmr-lb-content">
+          <div class="jmr-lb-img" id="jmr-lb-img-demo"></div>
+        </div>
+        <button class="jmr-lb-nav jmr-lb-next" id="jmr-lb-next-demo" aria-label="Next photo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <p class="jmr-lb-counter" id="jmr-lb-counter-demo"></p>
+      </div>
+
+      <!-- Report reason modal -->
+      <div class="jmr-report-overlay" hidden id="jmr-report-overlay-demo" role="dialog" aria-modal="true" aria-labelledby="jmr-report-title-demo">
+        <div class="jmr-report-modal">
+          <div class="jmr-report-modal-header">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>
+            </svg>
+            <p class="jmr-report-modal-title" id="jmr-report-title-demo">Report Review</p>
+          </div>
+          <div class="jmr-report-modal-body">
+            <p class="jmr-report-modal-sub">Why are you reporting this review?</p>
+            <div class="jmr-report-options">
+              <label class="jmr-report-option">
+                <input type="radio" name="jmr-report-reason-demo" value="spam">
+                Spam or fake review
+                <span class="jmr-report-suggested">Suggested</span>
+              </label>
+              <label class="jmr-report-option">
+                <input type="radio" name="jmr-report-reason-demo" value="inappropriate">
+                Inappropriate content
+              </label>
+              <label class="jmr-report-option">
+                <input type="radio" name="jmr-report-reason-demo" value="irrelevant">
+                Not related to this product
+              </label>
+              <label class="jmr-report-option">
+                <input type="radio" name="jmr-report-reason-demo" value="other">
+                Other
+              </label>
+            </div>
+            <div class="jmr-report-modal-footer">
+              <button class="jmr-report-cancel-btn" type="button" id="jmr-report-cancel-demo">Cancel</button>
+              <button class="jmr-report-submit-btn" type="button" id="jmr-report-submit-demo" disabled>Submit Report</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="demo-footer">
+    <p>Live preview of the <strong>HVAC Judge.me Review Template</strong> — designed as a drop-in Shopify section. <a href="../README.md">See main README</a> &middot; <a href="./README.md">Preview README</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

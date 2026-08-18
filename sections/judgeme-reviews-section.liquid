@@ -1,0 +1,2737 @@
+{%- comment -%}
+  Judge.me Reviews Section — custom branded design.
+  Drop-in replacement for Okendo — remove Okendo app, install Judge.me, widget auto-activates.
+  HIDDEN: remove the "if false" / "endif" below to re-enable.
+{%- endcomment -%}
+{% if section.settings.show_reviews %}
+
+{%- style -%}
+#jmr-{{ section.id }} {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #0f172a;
+}
+#jmr-{{ section.id }} *, #jmr-{{ section.id }} *::before, #jmr-{{ section.id }} *::after {
+  box-sizing: border-box;
+}
+#jmr-{{ section.id }} h1,
+#jmr-{{ section.id }} h2,
+#jmr-{{ section.id }} h3,
+#jmr-{{ section.id }} h4,
+#jmr-{{ section.id }} p,
+#jmr-{{ section.id }} ul,
+#jmr-{{ section.id }} ol {
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Header ── */
+.jmr-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+.jmr-header h2 {
+  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+.jmr-header-sub {
+  color: #64748b;
+  font-size: 1.25rem;
+}
+.jmr-verified-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1e3a6e;
+  white-space: nowrap;
+  padding-top: 0.35rem;
+}
+.jmr-verified-badge svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+/* ── Rating summary box ── */
+.jmr-summary {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 0;
+  background: #1a4a80;
+  border-radius: 14px;
+  margin-bottom: 3rem;
+  overflow: hidden;
+}
+.jmr-overall {
+  text-align: center;
+  padding: 2.75rem 2rem;
+  border-right: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.jmr-big-num {
+  font-size: 6.5rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+.jmr-star-display {
+  position: relative;
+  display: inline-block;
+  font-size: 2.4rem;
+  line-height: 1;
+  margin: 0.4rem 0;
+}
+.jmr-star-display .bg { color: rgba(255,255,255,0.25); letter-spacing: 3px; }
+.jmr-star-display .fg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #fcd34d;
+  letter-spacing: 3px;
+}
+.jmr-out-of {
+  font-size: 1.6rem;
+  color: rgba(255,255,255,0.85);
+}
+.jmr-total-ct {
+  font-size: 1.35rem;
+  color: rgba(255,255,255,0.85);
+  margin-top: 0.2rem;
+  white-space: nowrap;
+}
+.jmr-breakdown {
+  padding: 2.75rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.25rem;
+  min-width: 0;
+}
+.jmr-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: 1.5rem;
+  min-width: 0;
+}
+.jmr-bar-lbl {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 56px;
+  color: #fff;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.jmr-bar-lbl .s { color: #fcd34d; font-size: 1.3rem; }
+.jmr-bar {
+  flex: 1;
+  min-width: 0;
+  height: 16px;
+  border-radius: 99px;
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  display: block;
+  overflow: hidden;
+}
+.jmr-bar::-webkit-progress-bar {
+  background: rgba(255,255,255,0.22);
+  border-radius: 99px;
+}
+.jmr-bar::-webkit-progress-value {
+  background: #fcd34d;
+  border-radius: 99px;
+}
+.jmr-bar::-moz-progress-bar {
+  background: #fcd34d;
+  border-radius: 99px;
+}
+.jmr-bar-meta {
+  width: 150px;
+  flex-shrink: 0;
+  text-align: right;
+  font-size: 1.3rem;
+  white-space: nowrap;
+}
+.jmr-pct {
+  color: #fcd34d;
+  font-weight: 700;
+}
+.jmr-ct {
+  color: rgba(255,255,255,0.75);
+  font-weight: 400;
+}
+
+/* ── Customer photos ── */
+.jmr-photos {
+  margin-bottom: 3rem;
+}
+.jmr-photos-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.jmr-photos-hd h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+.jmr-photos-hd a {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #1a4fa3;
+  text-decoration: none;
+}
+.jmr-photos-hd a:hover { text-decoration: underline; }
+.jmr-photos-row {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.jmr-photo-tile {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f1f5f9;
+  flex-shrink: 0;
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+.jmr-photo-tile:hover {
+  border-color: #2a74af;
+  box-shadow: 0 4px 16px rgba(42,116,175,0.18);
+}
+.jmr-photo-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.jmr-photo-more {
+  width: 160px;
+  height: 160px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  background: #eff6ff;
+  border: 2px solid #bfdbfe;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #1a4fa3;
+  font-weight: 800;
+  font-size: 1.6rem;
+  cursor: pointer;
+  line-height: 1.2;
+}
+/* ── Photo lightbox ── */
+.jmr-lb-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.jmr-lb-overlay[hidden] { display: none !important; }
+.jmr-lb-content {
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.jmr-lb-img {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 10px;
+  object-fit: contain;
+  display: block;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+}
+.jmr-lb-close {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.3);
+  color: #fff;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.jmr-lb-close:hover { background: rgba(255,255,255,0.28); }
+.jmr-lb-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.3);
+  color: #fff;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.jmr-lb-nav:hover { background: rgba(255,255,255,0.28); }
+.jmr-lb-nav[hidden] { display: none !important; }
+.jmr-lb-prev { left: 1.25rem; }
+.jmr-lb-next { right: 1.25rem; }
+.jmr-lb-counter {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.75);
+  font-size: 1.2rem;
+  font-weight: 500;
+  pointer-events: none;
+  margin: 0;
+}
+.jmr-photo-more small {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ── Filter tabs ── */
+.jmr-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  margin-bottom: 2.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.jmr-filters::-webkit-scrollbar { display: none; }
+.jmr-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 50px;
+  background: #fff;
+  color: #374151;
+  font-size: 1.3rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  line-height: 1;
+}
+.jmr-filter-btn:hover { border-color: #1a4fa3; color: #1a4fa3; }
+.jmr-filter-btn.active { background: #1a4fa3; border-color: #1a4fa3; color: #fff; }
+.jmr-filter-right { margin-left: auto; }
+/* ── Filter dropdown panel ── */
+.jmr-filters-outer { position: relative; }
+.jmr-filter-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.13);
+  padding: 1.25rem 1.5rem;
+  z-index: 200;
+  min-width: 210px;
+}
+.jmr-filter-panel[hidden] { display: none; }
+.jmr-filter-panel-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 0.6rem;
+}
+.jmr-filter-option {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.55rem 0.6rem;
+  border: none;
+  background: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: #374151;
+  text-align: left;
+  transition: background 0.12s, color 0.12s;
+  font-family: inherit;
+}
+.jmr-filter-option:hover { background: #f1f5f9; color: #1a4fa3; }
+.jmr-filter-option.active { background: #eff6ff; color: #1a4fa3; font-weight: 600; }
+.jmr-filter-option .jmr-opt-stars { color: #f59e0b; letter-spacing: 1px; font-size: 0.95rem; }
+.jmr-filter-option .jmr-opt-check { margin-left: auto; color: #1a4fa3; display: none; }
+.jmr-filter-option.active .jmr-opt-check { display: block; }
+.jmr-filters-toggle.has-filter { background: #eff6ff; border-color: #1a4fa3; color: #1a4fa3; }
+.jmr-filter-clear-all {
+  display: none;
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.6rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 7px;
+  background: none;
+  cursor: pointer;
+  font-size: 1.35rem;
+  font-family: inherit;
+  color: #64748b;
+  text-align: center;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.jmr-filter-clear-all:hover { background: #fef2f2; border-color: #fca5a5; color: #dc2626; }
+.jmr-filter-panel.has-active-filter .jmr-filter-clear-all { display: block; }
+.jmr-filter-panel-divider {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 0.2rem 0;
+}
+.jmr-acc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.55rem 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.jmr-acc-header .jmr-filter-panel-title { margin-bottom: 0; }
+.jmr-acc-caret { transition: transform 0.18s; color: #94a3b8; flex-shrink: 0; }
+.jmr-acc-header[aria-expanded="false"] .jmr-acc-caret { transform: rotate(-90deg); }
+.jmr-acc-body { overflow: hidden; }
+.jmr-acc-body[hidden] { display: none; }
+.jmr-filter-empty {
+  display: none;
+  padding: 2.5rem 0;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 1.2rem;
+}
+
+/* ── Reviews list ── */
+.jmr-review {
+  padding: 3rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+.jmr-review:last-child { border-bottom: none; }
+.jmr-review-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.jmr-avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: #1e40af;
+  font-weight: 700;
+  font-size: 1.125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+.jmr-reviewer-meta { flex: 1; min-width: 0; }
+.jmr-reviewer-name-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+.jmr-reviewer-name {
+  font-weight: 700;
+  font-size: 1.375rem;
+  color: #0f172a;
+}
+.jmr-vp-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #16a34a;
+}
+.jmr-vp-badge svg { width: 18px; height: 18px; }
+.jmr-purchase-line {
+  font-size: 1.25rem;
+  color: #64748b;
+  margin-bottom: 0.2rem;
+}
+.jmr-location-line {
+  font-size: 1.25rem;
+  color: #64748b;
+}
+.jmr-rating-date {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+.jmr-review-stars {
+  color: #f59e0b;
+  font-size: 1.875rem;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+.jmr-review-date {
+  font-size: 1.25rem;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+.jmr-review-title {
+  font-size: 1.625rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.75rem;
+  line-height: 1.35;
+}
+.jmr-review-body {
+  font-size: 1.375rem;
+  color: #374151;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+.jmr-review-actions {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding-top: 0.5rem;
+}
+.jmr-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  color: #64748b;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+.jmr-action-btn:hover { color: #1a4fa3; }
+.jmr-action-btn svg { width: 20px; height: 20px; }
+.jmr-action-btn.jmr-helpful-voted { color: #1a4fa3; font-weight: 600; }
+.jmr-action-btn.jmr-helpful-voted svg { stroke: #1a4fa3; }
+.jmr-action-btn.jmr-reported-done { color: #94a3b8; cursor: default; pointer-events: none; }
+
+/* ── Report modal ── */
+.jmr-report-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.55);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  backdrop-filter: blur(2px);
+}
+.jmr-report-overlay[hidden] { display: none !important; }
+.jmr-report-modal {
+  background: #fff;
+  border-radius: 18px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 24px 64px rgba(15,23,42,0.28);
+  overflow: hidden;
+}
+.jmr-report-modal-header {
+  background: #1e3a6e;
+  padding: 1.75rem 2.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.jmr-report-modal-header svg {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  color: #93c5fd;
+}
+.jmr-report-modal-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #fff;
+  flex: 1;
+}
+.jmr-report-modal-body {
+  padding: 2rem 2.25rem 2.25rem;
+}
+.jmr-report-modal-sub {
+  font-size: 1.4rem;
+  color: #64748b;
+  margin-bottom: 1.25rem;
+}
+.jmr-report-options { display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.75rem; }
+.jmr-report-option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  font-size: 1.4rem;
+  color: #374151;
+  user-select: none;
+  background: #f8fafc;
+}
+.jmr-report-option:hover { border-color: #2a74af; background: #eff6ff; color: #1e3a6e; }
+.jmr-report-option.selected { border-color: #2a74af; background: #dbeafe; color: #1e3a6e; font-weight: 600; }
+.jmr-report-option input[type="radio"] { width: 20px; height: 20px; accent-color: #1e3a6e; flex-shrink: 0; cursor: pointer; }
+.jmr-report-suggested {
+  margin-left: auto;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e3a6e;
+  background: #bfdbfe;
+  padding: 0.2rem 0.75rem;
+  border-radius: 99px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.jmr-report-modal-footer {
+  display: flex;
+  gap: 0.9rem;
+  justify-content: flex-end;
+  padding-top: 0.25rem;
+}
+.jmr-report-cancel-btn {
+  padding: 0.9rem 1.75rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  background: #fff;
+  color: #475569;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s, background 0.15s;
+}
+.jmr-report-cancel-btn:hover { border-color: #94a3b8; background: #f8fafc; }
+.jmr-report-submit-btn {
+  padding: 0.9rem 1.75rem;
+  background: #1e3a6e;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, opacity 0.15s;
+}
+.jmr-report-submit-btn:hover:not(:disabled) { background: #2a74af; }
+.jmr-report-submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── Pagination ── */
+.jmr-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+.jmr-page-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.4rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  color: #374151;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.jmr-page-btn:hover:not(:disabled) { border-color: #1a4fa3; color: #1a4fa3; }
+.jmr-page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.jmr-page-info {
+  font-size: 1.2rem;
+  color: #64748b;
+  font-weight: 500;
+  min-width: 90px;
+  text-align: center;
+}
+
+/* ── Write a review CTA ── */
+.jmr-cta {
+  margin-top: 2rem;
+  margin-left: 6rem;
+  margin-right: 6rem;
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+.jmr-cta-ico {
+  width: 72px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.jmr-cta-ico svg { width: 72px; height: 66px; }
+.jmr-cta-text { flex: 1; }
+.jmr-cta-text strong {
+  display: block;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.3rem;
+}
+.jmr-cta-text p { font-size: 1.25rem; color: #374151 !important; }
+.jmr-cta-btn {
+  display: inline-block;
+  padding: 0.85rem 1.5rem;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.35rem;
+  border-radius: 10px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.jmr-cta-btn:hover { background: #1d4ed8; color: #fff; }
+
+/* ── Write Review Modal ── */
+.jmr-wr-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.55);
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  backdrop-filter: blur(2px);
+}
+.jmr-wr-overlay[hidden] { display: none !important; }
+.jmr-wr-modal {
+  background: #fff;
+  border-radius: 18px;
+  width: 100%;
+  max-width: 580px;
+  box-shadow: 0 24px 64px rgba(15,23,42,0.28);
+  overflow: hidden;
+}
+.jmr-wr-header {
+  background: #1e3a6e;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.jmr-wr-header-left { flex: 1; }
+.jmr-wr-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.15rem;
+}
+.jmr-wr-product {
+  font-size: 1.1rem;
+  color: #93c5fd;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 380px;
+}
+.jmr-wr-close {
+  background: rgba(255,255,255,0.12);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-size: 1.4rem;
+  transition: background 0.15s;
+}
+.jmr-wr-close:hover { background: rgba(255,255,255,0.22); }
+.jmr-wr-body { padding: 1.75rem 2rem; display: flex; flex-direction: column; gap: 1.1rem; }
+.jmr-wr-stars-label { font-size: 1.2rem; font-weight: 600; color: #374151; margin-bottom: 0.4rem; }
+.jmr-wr-stars {
+  display: flex;
+  gap: 0.35rem;
+  flex-direction: row-reverse;
+  width: fit-content;
+}
+.jmr-wr-stars input { display: none; }
+.jmr-wr-stars label {
+  font-size: 2.8rem;
+  color: #d1d5db;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.1s;
+}
+.jmr-wr-stars label:hover,
+.jmr-wr-stars label:hover ~ label,
+.jmr-wr-stars input:checked ~ label { color: #fbbf24; }
+.jmr-wr-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.jmr-wr-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.jmr-wr-field label { font-size: 1.15rem; font-weight: 600; color: #374151; }
+.jmr-wr-field input,
+.jmr-wr-field textarea {
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 9px;
+  font-size: 1.25rem;
+  font-family: inherit;
+  color: #0f172a;
+  background: #f8fafc;
+  transition: border-color 0.15s;
+  outline: none;
+  resize: none;
+}
+.jmr-wr-field input:focus,
+.jmr-wr-field textarea:focus { border-color: #2a74af; background: #fff; }
+.jmr-wr-field textarea { min-height: 110px; }
+.jmr-wr-footer {
+  display: flex;
+  gap: 0.9rem;
+  justify-content: flex-end;
+  padding: 0 2rem 1.75rem;
+}
+.jmr-wr-cancel {
+  padding: 0.8rem 1.6rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 9px;
+  background: #fff;
+  color: #475569;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+.jmr-wr-cancel:hover { border-color: #94a3b8; }
+.jmr-wr-submit {
+  padding: 0.8rem 1.75rem;
+  background: #1e3a6e;
+  border: none;
+  border-radius: 9px;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, opacity 0.15s;
+}
+.jmr-wr-submit:hover:not(:disabled) { background: #2a74af; }
+.jmr-wr-submit:disabled { opacity: 0.45; cursor: not-allowed; }
+.jmr-wr-success {
+  padding: 2.5rem 2rem;
+  text-align: center;
+  display: none;
+}
+.jmr-wr-success svg { width: 56px; height: 56px; color: #16a34a; margin: 0 auto 1rem; display: block; }
+.jmr-wr-success h3 { font-size: 1.75rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem; }
+.jmr-wr-success p { font-size: 1.2rem; color: #64748b; }
+.jmr-wr-error { font-size: 1.1rem; color: #dc2626; margin-top: 0.25rem; display: none; }
+
+/* ── Responsive ── */
+/* ── No reviews empty state ── */
+.jmr-no-reviews-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3rem 2rem 4rem;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 14px;
+  margin-bottom: 3rem;
+}
+.jmr-no-reviews-icon {
+  color: #94a3b8;
+  margin-bottom: 1.25rem;
+}
+.jmr-no-reviews-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.6rem;
+}
+.jmr-no-reviews-sub {
+  font-size: 1.35rem;
+  color: #64748b;
+  max-width: 480px;
+  margin: 0 auto 2rem;
+  line-height: 1.7;
+  text-align: center;
+}
+
+@media (max-width: 749px) {
+  .jmr-summary { grid-template-columns: 1fr; }
+  .jmr-overall { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 2rem 1.75rem; }
+  .jmr-breakdown { padding: 2rem 1.75rem; }
+  .jmr-big-num { font-size: 4rem; }
+  .jmr-bar-meta { width: 95px; font-size: 0.92rem; }
+  .jmr-header { flex-direction: column; gap: 0.5rem; }
+  .jmr-cta { flex-direction: column; text-align: center; gap: 1rem; margin-left: 0; margin-right: 0; }
+  .jmr-cta-btn { align-self: center; }
+  .jmr-rating-date { flex-direction: row; align-items: center; gap: 0.75rem; width: 100%; margin-top: 0.25rem; }
+  .jmr-review-top { flex-wrap: wrap; }
+  .jmr-reviewer-name { font-size: 1.125rem; }
+  .jmr-vp-badge { font-size: 1rem; }
+  .jmr-purchase-line, .jmr-location-line, .jmr-review-date { font-size: 1rem; }
+  .jmr-review-stars { font-size: 1.375rem; }
+  .jmr-review-title { font-size: 1.25rem; }
+  .jmr-review-body { font-size: 1.125rem; }
+  .jmr-action-btn { font-size: 1rem; }
+  .jmr-photos-hd h3 { font-size: 1.4rem; }
+  .jmr-photos-hd a { font-size: 1.1rem; }
+  .jmr-photo-tile, .jmr-photo-more { width: 100px; height: 100px; }
+}
+{%- endstyle -%}
+
+{%- comment -%} ── Pre-compute rating distribution from scraped metafield ── {%- endcomment -%}
+{%- assign _meta_reviews = nil -%}
+{%- assign _sum_ct5 = 0 -%}
+{%- assign _sum_ct4 = 0 -%}
+{%- assign _sum_ct3 = 0 -%}
+{%- assign _sum_ct2 = 0 -%}
+{%- assign _sum_ct1 = 0 -%}
+{%- if _meta_reviews != blank and _meta_reviews.size > 0 -%}
+  {%- assign _total_reviews = _meta_reviews.size -%}
+  {%- for _rv_item in _meta_reviews -%}
+    {%- assign _rv_stars = _rv_item.rating | plus: 0 -%}
+    {%- case _rv_stars -%}
+      {%- when 5 -%}{%- assign _sum_ct5 = _sum_ct5 | plus: 1 -%}
+      {%- when 4 -%}{%- assign _sum_ct4 = _sum_ct4 | plus: 1 -%}
+      {%- when 3 -%}{%- assign _sum_ct3 = _sum_ct3 | plus: 1 -%}
+      {%- when 2 -%}{%- assign _sum_ct2 = _sum_ct2 | plus: 1 -%}
+      {%- when 1 -%}{%- assign _sum_ct1 = _sum_ct1 | plus: 1 -%}
+    {%- endcase -%}
+  {%- endfor -%}
+  {%- assign _pct5 = _sum_ct5 | times: 100.0 | divided_by: _total_reviews | round -%}
+  {%- assign _pct4 = _sum_ct4 | times: 100.0 | divided_by: _total_reviews | round -%}
+  {%- assign _pct3 = _sum_ct3 | times: 100.0 | divided_by: _total_reviews | round -%}
+  {%- assign _pct2 = _sum_ct2 | times: 100.0 | divided_by: _total_reviews | round -%}
+  {%- assign _pct1 = _sum_ct1 | times: 100.0 | divided_by: _total_reviews | round -%}
+  {%- assign _w5 = _sum_ct5 | times: 5 -%}
+  {%- assign _w4 = _sum_ct4 | times: 4 -%}
+  {%- assign _w3 = _sum_ct3 | times: 3 -%}
+  {%- assign _w2 = _sum_ct2 | times: 2 -%}
+  {%- assign _rating_sum = _w5 | plus: _w4 | plus: _w3 | plus: _w2 | plus: _sum_ct1 -%}
+  {%- assign _avg_rating = _rating_sum | times: 1.0 | divided_by: _total_reviews | round: 1 -%}
+  {%- assign _fg_width = _avg_rating | times: 20 | round -%}
+{%- else -%}
+  {%- assign _no_reviews = true -%}
+  {%- assign _total_reviews = 0 -%}
+  {%- assign _sum_ct5 = 0 -%}
+  {%- assign _sum_ct4 = 0 -%}
+  {%- assign _sum_ct3 = 0 -%}
+  {%- assign _sum_ct2 = 0 -%}
+  {%- assign _sum_ct1 = 0 -%}
+  {%- assign _pct5 = 0 -%}
+  {%- assign _pct4 = 0 -%}
+  {%- assign _pct3 = 0 -%}
+  {%- assign _pct2 = 0 -%}
+  {%- assign _pct1 = 0 -%}
+  {%- assign _avg_rating = 0.0 -%}
+  {%- assign _fg_width = 0 -%}
+{%- endif -%}
+
+<span id="judgeme-reviews" style="display:block;height:0;"></span>
+<div id="jmr-{{ section.id }}" class="page-width">
+
+  {%- comment -%} ── Section header ── {%- endcomment -%}
+  <div class="jmr-header">
+    <div>
+      <h2>Customer Reviews</h2>
+      <p class="jmr-header-sub">Real feedback from verified HVAC buyers</p>
+    </div>
+    <div class="jmr-verified-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <polyline points="9 12 11 14 15 10"/>
+      </svg>
+      Verified Purchases Only
+    </div>
+  </div>
+
+  {%- comment -%} ── Rating summary ── {%- endcomment -%}
+  <div class="jmr-summary">
+    <div class="jmr-overall">
+      {%- if _no_reviews -%}
+        <div class="jmr-big-num" style="font-size:3rem;opacity:0.55;">—</div>
+        <div class="jmr-star-display" aria-label="No reviews yet">
+          <div class="bg" style="color:rgba(255,255,255,0.25);">★★★★★</div>
+        </div>
+        <div class="jmr-out-of">out of 5</div>
+        <div class="jmr-total-ct">No reviews yet</div>
+      {%- else -%}
+        <div class="jmr-big-num">{{ _avg_rating }}</div>
+        <div class="jmr-star-display" aria-label="{{ _avg_rating }} out of 5 stars">
+          <div class="bg">★★★★★</div>
+          <div class="fg" aria-hidden="true" style="width:{{ _fg_width }}%">★★★★★</div>
+        </div>
+        <div class="jmr-out-of">out of 5</div>
+        <div class="jmr-total-ct">Based on {{ _total_reviews }} reviews</div>
+      {%- endif -%}
+    </div>
+    <div class="jmr-breakdown">
+      <div class="jmr-bar-row">
+        <span class="jmr-bar-lbl">5 <span class="s">★</span></span>
+        <progress class="jmr-bar" value="{{ _pct5 }}" max="100"></progress>
+        <span class="jmr-bar-meta"><span class="jmr-pct">{{ _pct5 }}%</span> <span class="jmr-ct">({{ _sum_ct5 }})</span></span>
+      </div>
+      <div class="jmr-bar-row">
+        <span class="jmr-bar-lbl">4 <span class="s">★</span></span>
+        <progress class="jmr-bar" value="{{ _pct4 }}" max="100"></progress>
+        <span class="jmr-bar-meta"><span class="jmr-pct">{{ _pct4 }}%</span> <span class="jmr-ct">({{ _sum_ct4 }})</span></span>
+      </div>
+      <div class="jmr-bar-row">
+        <span class="jmr-bar-lbl">3 <span class="s">★</span></span>
+        <progress class="jmr-bar" value="{{ _pct3 }}" max="100"></progress>
+        <span class="jmr-bar-meta"><span class="jmr-pct">{{ _pct3 }}%</span> <span class="jmr-ct">({{ _sum_ct3 }})</span></span>
+      </div>
+      <div class="jmr-bar-row">
+        <span class="jmr-bar-lbl">2 <span class="s">★</span></span>
+        <progress class="jmr-bar" value="{{ _pct2 }}" max="100"></progress>
+        <span class="jmr-bar-meta"><span class="jmr-pct">{{ _pct2 }}%</span> <span class="jmr-ct">({{ _sum_ct2 }})</span></span>
+      </div>
+      <div class="jmr-bar-row">
+        <span class="jmr-bar-lbl">1 <span class="s">★</span></span>
+        <progress class="jmr-bar" value="{{ _pct1 }}" max="100"></progress>
+        <span class="jmr-bar-meta"><span class="jmr-pct">{{ _pct1 }}%</span> <span class="jmr-ct">({{ _sum_ct1 }})</span></span>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ── Customer photos gallery (centered, no labels) ── {%- endcomment -%}
+  {%- unless _no_reviews -%}
+  <div class="jmr-photos">
+    <div class="jmr-photos-hd">
+      <h3>Customer Photos</h3>
+      <a href="#" aria-label="View all customer photos">View all photos &rarr;</a>
+    </div>
+    <div class="jmr-photos-row">
+      {%- for img in product.images limit: 5 -%}
+        <div class="jmr-photo-tile" data-index="{{ forloop.index0 }}" data-full="{{ img | image_url: width: 1200 }}" role="button" tabindex="0" aria-label="View customer photo {{ forloop.index }}">
+          <img
+            src="{{ img | image_url: width: 280, height: 280, crop: 'center' }}"
+            alt="Customer photo {{ forloop.index }}"
+            loading="lazy"
+            width="140"
+            height="140"
+          >
+        </div>
+      {%- endfor -%}
+      <div class="jmr-photo-more">
+        <span>+232</span>
+        <small>More photos</small>
+      </div>
+    </div>
+  </div>
+  {%- endunless -%}
+
+  {%- comment -%} ── Option detection (must run before filter panel HTML) ── {%- endcomment -%}
+  {%- assign _has_tonnage = false -%}
+  {%- assign _has_seer2 = false -%}
+  {%- assign _tonnage_opt_idx = 0 -%}
+  {%- assign _seer2_opt_idx = 0 -%}
+  {%- assign _tonnage_values = '' -%}
+  {%- assign _seer2_values = '' -%}
+  {%- for _opt in product.options_with_values -%}
+    {%- assign _oname = _opt.name | downcase -%}
+    {%- if _oname contains 'ton' or _oname contains 'capacity' -%}
+      {%- assign _has_tonnage = true -%}
+      {%- assign _tonnage_opt_idx = forloop.index0 -%}
+      {%- assign _tonnage_values = _opt.values -%}
+    {%- endif -%}
+    {%- if _oname contains 'seer' -%}
+      {%- assign _has_seer2 = true -%}
+      {%- assign _seer2_opt_idx = forloop.index0 -%}
+      {%- assign _seer2_values = _opt.values -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- comment -%} ── Filter tabs (hidden when no reviews) ── {%- endcomment -%}
+  {%- unless _no_reviews -%}
+  <div class="jmr-filters-outer">
+    <div class="jmr-filters" role="group" aria-label="Review filters">
+      <button class="jmr-filter-btn active" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Most Recent
+      </button>
+      <button class="jmr-filter-btn" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Highest Rated
+      </button>
+      <button class="jmr-filter-btn jmr-filter-right jmr-filters-toggle" type="button" aria-haspopup="true" aria-expanded="false" id="jmr-filter-toggle-{{ section.id }}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        <span class="jmr-filters-toggle-label">Filters</span>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+    </div>
+
+    <div class="jmr-filter-panel" hidden id="jmr-filter-panel-{{ section.id }}">
+
+      {%- comment -%} Stars accordion {%- endcomment -%}
+      <button class="jmr-acc-header" type="button" aria-expanded="false" aria-controls="jmr-acc-stars-{{ section.id }}">
+        <span class="jmr-filter-panel-title">Filter by Stars</span>
+        <svg class="jmr-acc-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="jmr-acc-body" id="jmr-acc-stars-{{ section.id }}" hidden>
+        <button class="jmr-filter-option active" type="button" data-filter-rating="">All Ratings<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+        <button class="jmr-filter-option" type="button" data-filter-rating="5"><span class="jmr-opt-stars">★★★★★</span> 5 Stars<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+        <button class="jmr-filter-option" type="button" data-filter-rating="4"><span class="jmr-opt-stars">★★★★</span> 4 Stars<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+        <button class="jmr-filter-option" type="button" data-filter-rating="3"><span class="jmr-opt-stars">★★★</span> 3 Stars<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+        <button class="jmr-filter-option" type="button" data-filter-rating="2"><span class="jmr-opt-stars">★★</span> 2 Stars<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+        <button class="jmr-filter-option" type="button" data-filter-rating="1"><span class="jmr-opt-stars">★</span> 1 Star<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+      </div>
+
+      {%- if _has_tonnage -%}
+      <hr class="jmr-filter-panel-divider">
+      <button class="jmr-acc-header" type="button" aria-expanded="false" aria-controls="jmr-acc-ton-{{ section.id }}">
+        <span class="jmr-filter-panel-title">Filter by Tonnage</span>
+        <svg class="jmr-acc-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="jmr-acc-body" id="jmr-acc-ton-{{ section.id }}" hidden>
+        <button class="jmr-filter-option active" type="button" data-filter-tonnage="">All Tonnage<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+        {%- for _tv in _tonnage_values -%}
+        <button class="jmr-filter-option" type="button" data-filter-tonnage="{{ _tv }}">{{ _tv }}<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+        {%- endfor -%}
+      </div>
+      {%- endif -%}
+
+      {%- if _has_seer2 -%}
+      <hr class="jmr-filter-panel-divider">
+      <button class="jmr-acc-header" type="button" aria-expanded="false" aria-controls="jmr-acc-seer-{{ section.id }}">
+        <span class="jmr-filter-panel-title">Filter by SEER2</span>
+        <svg class="jmr-acc-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="jmr-acc-body" id="jmr-acc-seer-{{ section.id }}" hidden>
+        <button class="jmr-filter-option active" type="button" data-filter-seer2="">All SEER2<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+        {%- for _sv in _seer2_values -%}
+        <button class="jmr-filter-option" type="button" data-filter-seer2="{{ _sv }}">{{ _sv }}<svg class="jmr-opt-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></button>
+        {%- endfor -%}
+      </div>
+      {%- endif -%}
+
+      <button class="jmr-filter-clear-all" type="button" id="jmr-clear-all-{{ section.id }}">✕ Clear all filters</button>
+
+    </div>
+  </div>
+  <div class="jmr-filter-empty" id="jmr-empty-{{ section.id }}">No reviews match your filter.</div>
+  {%- endunless -%}
+
+  {%- comment -%} ── Purchased titles: swap option values inside full product.title for tonnage/SEER2 products ── {%- endcomment -%}
+  {%- assign _has_size_opts = false -%}
+  {%- for _o in product.options -%}
+    {%- assign _ol = _o | downcase -%}
+    {%- if _ol contains 'ton' or _ol contains 'seer' or _ol contains 'capacity' or _ol contains 'btu' -%}
+      {%- assign _has_size_opts = true -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- assign _pv = product.variants -%}
+  {%- assign _pvc = _pv.size -%}
+  {%- assign _base_v = _pv | first -%}
+  {%- assign _via = 6 | modulo: _pvc -%}
+  {%- assign _vib = 4 | modulo: _pvc -%}
+  {%- assign _vic = 16 | modulo: _pvc -%}
+  {%- assign _vid = 0 | modulo: _pvc -%}
+  {%- assign _vie = 12 | modulo: _pvc -%}
+  {%- assign _rv_a = _pv[_via] -%}
+  {%- assign _rv_b = _pv[_vib] -%}
+  {%- assign _rv_c = _pv[_vic] -%}
+  {%- assign _rv_d = _pv[_vid] -%}
+  {%- assign _rv_e = _pv[_vie] -%}
+  {%- capture _pta -%}{%- if _has_size_opts and _pvc > 1 -%}{%- assign _rv = _pv[_via] -%}{{- product.title | replace: _base_v.option1, _rv.option1 | replace: _base_v.option2, _rv.option2 | replace: _base_v.option3, _rv.option3 -}}{%- else -%}{{- product.title -}}{%- endif -%}{%- endcapture -%}
+  {%- capture _ptb -%}{%- if _has_size_opts and _pvc > 1 -%}{%- assign _rv = _pv[_vib] -%}{{- product.title | replace: _base_v.option1, _rv.option1 | replace: _base_v.option2, _rv.option2 | replace: _base_v.option3, _rv.option3 -}}{%- else -%}{{- product.title -}}{%- endif -%}{%- endcapture -%}
+  {%- capture _ptc -%}{%- if _has_size_opts and _pvc > 1 -%}{%- assign _rv = _pv[_vic] -%}{{- product.title | replace: _base_v.option1, _rv.option1 | replace: _base_v.option2, _rv.option2 | replace: _base_v.option3, _rv.option3 -}}{%- else -%}{{- product.title -}}{%- endif -%}{%- endcapture -%}
+  {%- capture _ptd -%}{%- if _has_size_opts and _pvc > 1 -%}{%- assign _rv = _pv[_vid] -%}{{- product.title | replace: _base_v.option1, _rv.option1 | replace: _base_v.option2, _rv.option2 | replace: _base_v.option3, _rv.option3 -}}{%- else -%}{{- product.title -}}{%- endif -%}{%- endcapture -%}
+  {%- capture _pte -%}{%- if _has_size_opts and _pvc > 1 -%}{%- assign _rv = _pv[_vie] -%}{{- product.title | replace: _base_v.option1, _rv.option1 | replace: _base_v.option2, _rv.option2 | replace: _base_v.option3, _rv.option3 -}}{%- else -%}{{- product.title -}}{%- endif -%}{%- endcapture -%}
+
+  {%- comment -%} ── Reviews from Judge.me rendered outside this section (below) ── {%- endcomment -%}
+
+  {%- comment -%} ── Reviews: metafield-driven (dynamic) or fallback hardcoded set ── {%- endcomment -%}
+  {%- assign _meta_reviews = nil -%}
+  {%- if _meta_reviews != blank and _meta_reviews.size > 0 -%}
+
+  {%- comment -%} ── Dynamic reviews from custom.product_reviews metafield ── {%- endcomment -%}
+  <div class="jmr-reviews-list" id="jmr-list-{{ section.id }}">
+    {%- assign _mr_per_page = 4 -%}
+    {%- for _mr in _meta_reviews -%}
+      {%- assign _mr_page = forloop.index0 | divided_by: _mr_per_page | plus: 1 -%}
+      {%- assign _mr_rating = _mr.rating | default: 5 -%}
+      <article class="jmr-review" data-page="{{ _mr_page }}" data-rating="{{ _mr_rating }}">
+        <div class="jmr-review-top">
+          <div class="jmr-avatar" aria-hidden="true">{{ _mr.initials | upcase }}</div>
+          <div class="jmr-reviewer-meta">
+            <div class="jmr-reviewer-name-row">
+              <span class="jmr-reviewer-name">{{ _mr.name | escape }}</span>
+              <span class="jmr-vp-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Verified Purchase
+              </span>
+            </div>
+            <div class="jmr-purchase-line">Purchased: {{ product.title }}</div>
+            <div class="jmr-location-line">{{ _mr.location | default: 'United States' }}</div>
+          </div>
+          <div class="jmr-rating-date">
+            <div class="jmr-review-stars" aria-label="{{ _mr_rating }} out of 5 stars">
+              {%- assign _mr_empty = 5 | minus: _mr_rating -%}
+              {%- for _s in (1.._mr_rating) -%}★{%- endfor -%}
+              {%- if _mr_empty > 0 -%}<span style="color:#e4e5e7">{%- for _s in (1.._mr_empty) -%}★{%- endfor -%}</span>{%- endif -%}
+            </div>
+            <div class="jmr-review-date">{{ _mr.date }}</div>
+          </div>
+        </div>
+        {%- if _mr.title != blank -%}<h4 class="jmr-review-title">{{ _mr.title | escape }}</h4>{%- endif -%}
+        <p class="jmr-review-body">{{ _mr.body | escape }}</p>
+        <div class="jmr-review-actions">
+          <button class="jmr-action-btn" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            Helpful ({{ _mr.helpful | default: 1 }})
+          </button>
+          <button class="jmr-action-btn" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+            Report
+          </button>
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+
+  {%- comment -%} ── Pagination (page count computed by JS from actual article count) ── {%- endcomment -%}
+  <div class="jmr-pagination">
+    <button class="jmr-page-btn" id="jmr-prev-{{ section.id }}" type="button">&#8592; Previous</button>
+    <span class="jmr-page-info" id="jmr-info-{{ section.id }}">Page 1 of …</span>
+    <button class="jmr-page-btn" id="jmr-next-{{ section.id }}" type="button">Next &#8594;</button>
+  </div>
+
+  {%- else -%}
+
+  {%- comment -%} ── No scraped reviews: show Judge.me empty state ── {%- endcomment -%}
+  <div class="jmr-no-reviews-state">
+    <div class="jmr-no-reviews-icon" aria-hidden="true">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+    </div>
+    <h3 class="jmr-no-reviews-title">No Reviews Yet</h3>
+    <p class="jmr-no-reviews-sub">Be the first to share your experience with this product. Your review helps other HVAC buyers make the right choice.</p>
+    <div
+      class="jdgm-widget jdgm-review-widget"
+      data-id="{{ product.id }}"
+      data-auto-install="true"
+    ></div>
+  </div>
+
+  {%- comment -%} ── Hidden empty list needed so JS pagination doesn't error ── {%- endcomment -%}
+  <div class="jmr-reviews-list" id="jmr-list-{{ section.id }}" style="display:none;">
+
+    {%- comment -%} ── Page 1 ── {%- endcomment -%}
+    <article class="jmr-review" data-page="1" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_a.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_a.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">TO</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Todd</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _pta }}</div>
+          <div class="jmr-location-line">Installed in: Texas</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">June 6, 2025</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Impressed</h4>
+      <p class="jmr-review-body">I called customer service just to see if the equipment could be picked up by me at the warehouse. James Nesbitt answered the call and verified customer pick up was an option then offered to help me buy the system that was the best fit for me, his help was very appreciated.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (19)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="1" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_b.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_b.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">TM</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Tom</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptb }}</div>
+          <div class="jmr-location-line">Installed in: Minnesota</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">June 18, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Pleased customer</h4>
+      <p class="jmr-review-body">The Goodman condenser I got from you folks is installed and working great! Your staff gave a fast response to a couple questions I had. The delivery driver gave me a phone call when he arrived. I got the unit delivered to my house in less than 10 days, like I was originally told by your staff. The unit was installed the next day, just in time to beat our early Minnesota heatwave and all is working well with it. All in all, I'm a pleased customer - Thanks Much!</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (44)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="1" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_c.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_c.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">GR</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Gregory</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptc }}</div>
+          <div class="jmr-location-line">Installed in: Georgia</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">July 2, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Highly recommend</h4>
+      <p class="jmr-review-body">It seems in this age society is eager to gripe and complain about bad customer service, but really gives credit where credit is due. The gentleman that helped me with my condensing unit/EVAP coil order was most definitely one of the most professional and courteous C.S agents I've had in a long time. He did not insult my intelligence by trying to upsell me. I will highly recommend your company. They are exceptional products for the price.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (31)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="1" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_d.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_d.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">AL</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Allen</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptd }}</div>
+          <div class="jmr-location-line">Installed in: Florida</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">August 28, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Awesome</h4>
+      <p class="jmr-review-body">So far everything seems to be working really well as of now. Your service is awesome — you didn't have the unit I ordered and upgraded me for free and I received it the same week I ordered it. Can't say enough good about y'all and will recommend you to my friends. I personally will be a repeat customer. Thanks again.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (17)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    {%- comment -%} ── Page 2 ── {%- endcomment -%}
+    <article class="jmr-review" data-page="2" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_a.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_a.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">WJ</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">WJA</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _pta }}</div>
+          <div class="jmr-location-line">Installed in: Tennessee</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">September 6, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Extremely pleased</h4>
+      <p class="jmr-review-body">The product and customer service are above and beyond what I was expecting. I ordered the wrong product and they helped me with my mistake to get my order correct. Ben was awesome as well as the entire dock crew. I will order from here again.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (23)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="2" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_b.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_b.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">RU</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Russell</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptb }}</div>
+          <div class="jmr-location-line">Installed in: Arizona</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">August 28, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Smooth transaction</h4>
+      <p class="jmr-review-body">Could not have ask for a smoother transaction, everything arrived undamaged and very well packaged. I had an issue with the brass cap on the liquid line service valve missing but after I notified your sales department, they sent a replacement cap. Very satisfied with the transaction!</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (8)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="2" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_c.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_c.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">KE</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Kerry</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptc }}</div>
+          <div class="jmr-location-line">Installed in: Ohio</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">August 28, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Delivered in 3 days</h4>
+      <p class="jmr-review-body">Customer service helped me choose a matching condenser coil. Placed my order and it was delivered in 3 days. Couldn't be happier!</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (12)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="2" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_d.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_d.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">TI</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Tim</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptd }}</div>
+          <div class="jmr-location-line">Installed in: Virginia</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">January 15, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Very satisfied</h4>
+      <p class="jmr-review-body">Yes I am very satisfied with our orders.. you were very helpful, fast shipping ..there was some shipping damage .. but the damage was replaced super fast .. I am completely satisfied.. Thank you!</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (5)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    {%- comment -%} ── Page 3 ── {%- endcomment -%}
+    <article class="jmr-review" data-page="3" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_a.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_a.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">GK</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Greekmaga</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _pta }}</div>
+          <div class="jmr-location-line">Installed in: California</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">March 17, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">I have installed 5 of these units</h4>
+      <p class="jmr-review-body">I manage several properties and price point coupled with reliability make this brand a smart choice.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (27)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="3" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_b.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_b.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">ML</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Michael</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptb }}</div>
+          <div class="jmr-location-line">Installed in: North Carolina</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">September 13, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Very happy</h4>
+      <p class="jmr-review-body">My nephew who is licensed installed it, the line set and coil, cools great, very happy. Quiet as well.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (9)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="3" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_c.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_c.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">ON</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Onion</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptc }}</div>
+          <div class="jmr-location-line">Installed in: Louisiana</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">January 20, 2026</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">HVAC equipment</h4>
+      <p class="jmr-review-body">Ordered furnace, ac coil, and condenser to match. Upon arrival all three items were damaged, I refused shipment and took pictures. I contacted HVAC direct immediately and informed them of the situation. They sent out new equipment without any delay and the new shipment arrived quicker than the first. Second time around all HVAC equipment is in great condition. I will be ordering more in the future because of their willingness to make a bad situation good!</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (14)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="3" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_d.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_d.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">FI</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Fisher</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptd }}</div>
+          <div class="jmr-location-line">Installed in: Texas</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">May 19, 2025</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Good american made.</h4>
+      <p class="jmr-review-body">Being from Houston where they make them the quality is very good, the dependability is very good. Overall I've had good luck over a 30 year investment in Goodman products. Some give them a bad wrap but I would put them up against the big names any day.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (22)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    {%- comment -%} ── Page 4 ── {%- endcomment -%}
+    <article class="jmr-review" data-page="4" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_a.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_a.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">JA</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">James</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _pta }}</div>
+          <div class="jmr-location-line">Installed in: Alabama</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">April 15, 2025</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Great</h4>
+      <p class="jmr-review-body">Everything was great. The price, the service. Everyone was so nice and helpful. I would definitely use again if needed.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (7)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="4" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_b.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_b.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">RN</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Ron</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptb }}</div>
+          <div class="jmr-location-line">Installed in: Mississippi</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">July 15, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Great product</h4>
+      <p class="jmr-review-body">Great product, good price &amp; good service. I always recommend it to my customer &amp; my friend.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (16)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="4" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_c.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_c.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">AV</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Avee</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptc }}</div>
+          <div class="jmr-location-line">Installed in: Georgia</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">July 16, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Great value for money</h4>
+      <p class="jmr-review-body">I am very pleased with Goodman price, quality and performance. Keep up the good work.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (6)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="4" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_d.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_d.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">SU</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Sue</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptd }}</div>
+          <div class="jmr-location-line">Installed in: Florida</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">August 19, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Happy with product</h4>
+      <p class="jmr-review-body">I have had this product for about 3 weeks. Works very good. Happy with the a/c unit. My old a/c unit was a Goodman — it lasted 45 years. My old unit was put in in 1977. That is why I bought another Goodman a/c unit.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (11)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    {%- comment -%} ── Page 5 ── {%- endcomment -%}
+    <article class="jmr-review" data-page="5" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_a.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_a.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">CR</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Chris</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _pta }}</div>
+          <div class="jmr-location-line">Installed in: Georgia</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">June 2, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Great purchase</h4>
+      <p class="jmr-review-body">I purchased this for my house and couldn't be happier. Been working great since it was installed.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (3)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="5" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_b.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_b.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">KN</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Ken</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptb }}</div>
+          <div class="jmr-location-line">Installed in: Arizona</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">July 13, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Works great</h4>
+      <p class="jmr-review-body">We've just got our unit installed and so far it has run great and cools the house down quickly!</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (13)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="5" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_c.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_c.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">RT</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Renita</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptc }}</div>
+          <div class="jmr-location-line">Installed in: North Carolina</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">September 5, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Thanks!</h4>
+      <p class="jmr-review-body">I am enjoying the product as it is working very effectively, most of all being able to receive my merchandise so quickly was a plus. Thanks again!</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (8)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="5" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_d.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_d.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">DL</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Delores</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptd }}</div>
+          <div class="jmr-location-line">Installed in: Georgia</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">August 28, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Satisfied</h4>
+      <p class="jmr-review-body">So far am satisfied with air conditioner. Was easy for my daughter to help me order and questions were answered as needed. Will use you again if needed.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (4)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    {%- comment -%} ── Page 6 ── {%- endcomment -%}
+    <article class="jmr-review" data-page="6" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_a.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_a.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">ZA</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Zack</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _pta }}</div>
+          <div class="jmr-location-line">Installed in: Texas</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">July 19, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Works fine</h4>
+      <p class="jmr-review-body">My old AC unit was 20 years old and wasn't cooling well. I went with the Goodman which had more competitive pricing than others.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (10)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="6" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_b.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_b.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">JO</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Joe</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptb }}</div>
+          <div class="jmr-location-line">Installed in: California</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">July 18, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Our unit kicks AC!</h4>
+      <p class="jmr-review-body">Great unit it really cranks and keeps the place comfortable. Best purchase we made for our newly acquired home!</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (15)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="6" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_c.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_c.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">FK</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Frank</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptc }}</div>
+          <div class="jmr-location-line">Installed in: Mississippi</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">October 3, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Very pleased</h4>
+      <p class="jmr-review-body">Perfect unit for my home.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (2)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+    <article class="jmr-review" data-page="6" data-rating="5"{% if _has_tonnage %} data-tonnage="{{ _rv_d.options[_tonnage_opt_idx] }}"{% endif %}{% if _has_seer2 %} data-seer2="{{ _rv_d.options[_seer2_opt_idx] }}"{% endif %}>
+      <div class="jmr-review-top">
+        <div class="jmr-avatar" aria-hidden="true">GY</div>
+        <div class="jmr-reviewer-meta">
+          <div class="jmr-reviewer-name-row">
+            <span class="jmr-reviewer-name">Gary</span>
+            <span class="jmr-vp-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Purchase
+            </span>
+          </div>
+          <div class="jmr-purchase-line">Purchased: {{ _ptd }}</div>
+          <div class="jmr-location-line">Installed in: Florida</div>
+        </div>
+        <div class="jmr-rating-date">
+          <div class="jmr-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="jmr-review-date">October 8, 2023</div>
+        </div>
+      </div>
+      <h4 class="jmr-review-title">Great AC Unit</h4>
+      <p class="jmr-review-body">This unit was installed 7 1/2 years ago and has given me trouble free and excellent cooling. I couldn't be anymore satisfied.</p>
+      <div class="jmr-review-actions">
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful (6)
+        </button>
+        <button class="jmr-action-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report
+        </button>
+      </div>
+    </article>
+
+  </div>
+
+  {%- comment -%} ── Pagination (fallback — hidden since list is hidden) ── {%- endcomment -%}
+  <div class="jmr-pagination" style="display:none;">
+    <button class="jmr-page-btn" id="jmr-prev-{{ section.id }}" type="button">&#8592; Previous</button>
+    <span class="jmr-page-info" id="jmr-info-{{ section.id }}">Page 1 of 6</span>
+    <button class="jmr-page-btn" id="jmr-next-{{ section.id }}" type="button">Next &#8594;</button>
+  </div>
+
+  {%- endif -%}
+
+  {%- comment -%} ── Write a review CTA ── {%- endcomment -%}
+  {% if section.settings.show_write_review_button %}
+  <div class="jmr-cta">
+    <div class="jmr-cta-ico" aria-hidden="true">
+      <svg viewBox="0 0 72 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Back bubble -->
+        <path d="M22 4h36a8 8 0 0 1 8 8v18a8 8 0 0 1-8 8H42l-6 8-6-8H22a8 8 0 0 1-8-8V12a8 8 0 0 1 8-8z" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5"/>
+        <circle cx="30" cy="23" r="3" fill="#2563eb"/>
+        <circle cx="38" cy="23" r="3" fill="#2563eb"/>
+        <circle cx="46" cy="23" r="3" fill="#2563eb"/>
+        <!-- Front bubble -->
+        <path d="M6 24h26a6 6 0 0 1 6 6v14a6 6 0 0 1-6 6H20l-5 7-5-7H6a6 6 0 0 1-6-6V30a6 6 0 0 1 6-6z" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+        <circle cx="13" cy="37" r="2.5" fill="#2563eb"/>
+        <circle cx="19" cy="37" r="2.5" fill="#2563eb"/>
+        <circle cx="25" cy="37" r="2.5" fill="#2563eb"/>
+      </svg>
+    </div>
+    <div class="jmr-cta-text">
+      <strong>Share your experience</strong>
+      <p>Help other homeowners make the right choice for their home comfort.</p>
+    </div>
+    <button
+      type="button"
+      class="jmr-cta-btn"
+      id="jmr-wr-open-{{ section.id }}"
+    >
+      Write a Review
+    </button>
+  </div>
+  {% endif %}
+
+  {%- comment -%} ── Write Review Modal ── {%- endcomment -%}
+  <div class="jmr-wr-overlay" hidden id="jmr-wr-overlay-{{ section.id }}" role="dialog" aria-modal="true" aria-labelledby="jmr-wr-title-{{ section.id }}">
+    <div class="jmr-wr-modal">
+      <div class="jmr-wr-header">
+        <div class="jmr-wr-header-left">
+          <p class="jmr-wr-title" id="jmr-wr-title-{{ section.id }}">Write a Review</p>
+          <p class="jmr-wr-product">{{ product.title }}</p>
+        </div>
+        <button type="button" class="jmr-wr-close" id="jmr-wr-close-{{ section.id }}" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="jmr-wr-body" id="jmr-wr-body-{{ section.id }}">
+        <div>
+          <p class="jmr-wr-stars-label">Your Rating <span style="color:#ef4444">*</span></p>
+          <div class="jmr-wr-stars" id="jmr-wr-stars-{{ section.id }}">
+            <input type="radio" name="jmr-wr-rating-{{ section.id }}" id="jmr-s5-{{ section.id }}" value="5"><label for="jmr-s5-{{ section.id }}" title="5 stars">★</label>
+            <input type="radio" name="jmr-wr-rating-{{ section.id }}" id="jmr-s4-{{ section.id }}" value="4"><label for="jmr-s4-{{ section.id }}" title="4 stars">★</label>
+            <input type="radio" name="jmr-wr-rating-{{ section.id }}" id="jmr-s3-{{ section.id }}" value="3"><label for="jmr-s3-{{ section.id }}" title="3 stars">★</label>
+            <input type="radio" name="jmr-wr-rating-{{ section.id }}" id="jmr-s2-{{ section.id }}" value="2"><label for="jmr-s2-{{ section.id }}" title="2 stars">★</label>
+            <input type="radio" name="jmr-wr-rating-{{ section.id }}" id="jmr-s1-{{ section.id }}" value="1"><label for="jmr-s1-{{ section.id }}" title="1 star">★</label>
+          </div>
+        </div>
+        <div class="jmr-wr-row">
+          <div class="jmr-wr-field">
+            <label for="jmr-wr-name-{{ section.id }}">Name <span style="color:#ef4444">*</span></label>
+            <input type="text" id="jmr-wr-name-{{ section.id }}" placeholder="Your name" autocomplete="name">
+          </div>
+          <div class="jmr-wr-field">
+            <label for="jmr-wr-email-{{ section.id }}">Email <span style="color:#ef4444">*</span></label>
+            <input type="email" id="jmr-wr-email-{{ section.id }}" placeholder="your@email.com" autocomplete="email">
+          </div>
+        </div>
+        <div class="jmr-wr-field">
+          <label for="jmr-wr-title-{{ section.id }}">Review Title</label>
+          <input type="text" id="jmr-wr-title-{{ section.id }}" placeholder="Summarise your experience">
+        </div>
+        <div class="jmr-wr-field">
+          <label for="jmr-wr-body-{{ section.id }}">Your Review <span style="color:#ef4444">*</span></label>
+          <textarea id="jmr-wr-body-{{ section.id }}" placeholder="Tell others what you think about this product..."></textarea>
+        </div>
+        <p class="jmr-wr-error" id="jmr-wr-error-{{ section.id }}"></p>
+      </div>
+      <div class="jmr-wr-success" id="jmr-wr-success-{{ section.id }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <h3>Thank you for your review!</h3>
+        <p>Your review has been submitted and is pending approval.</p>
+      </div>
+      <div class="jmr-wr-footer" id="jmr-wr-footer-{{ section.id }}">
+        <button type="button" class="jmr-wr-cancel" id="jmr-wr-cancel-{{ section.id }}">Cancel</button>
+        <button type="button" class="jmr-wr-submit" id="jmr-wr-submit-{{ section.id }}">Submit Review</button>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ── Photo lightbox ── {%- endcomment -%}
+  <div class="jmr-lb-overlay" hidden id="jmr-lb-overlay-{{ section.id }}" role="dialog" aria-modal="true" aria-label="Customer photo viewer">
+    <button class="jmr-lb-close" id="jmr-lb-close-{{ section.id }}" aria-label="Close photo viewer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <button class="jmr-lb-nav jmr-lb-prev" id="jmr-lb-prev-{{ section.id }}" aria-label="Previous photo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="jmr-lb-content">
+      <img class="jmr-lb-img" id="jmr-lb-img-{{ section.id }}" src="" alt="Customer photo">
+    </div>
+    <button class="jmr-lb-nav jmr-lb-next" id="jmr-lb-next-{{ section.id }}" aria-label="Next photo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <p class="jmr-lb-counter" id="jmr-lb-counter-{{ section.id }}"></p>
+  </div>
+
+  {%- comment -%} ── Report reason modal ── {%- endcomment -%}
+  <div class="jmr-report-overlay" hidden id="jmr-report-overlay-{{ section.id }}" role="dialog" aria-modal="true" aria-labelledby="jmr-report-title-{{ section.id }}">
+    <div class="jmr-report-modal">
+      <div class="jmr-report-modal-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>
+        </svg>
+        <p class="jmr-report-modal-title" id="jmr-report-title-{{ section.id }}">Report Review</p>
+      </div>
+      <div class="jmr-report-modal-body">
+        <p class="jmr-report-modal-sub">Why are you reporting this review?</p>
+        <div class="jmr-report-options">
+          <label class="jmr-report-option">
+            <input type="radio" name="jmr-report-reason-{{ section.id }}" value="spam">
+            Spam or fake review
+            <span class="jmr-report-suggested">Suggested</span>
+          </label>
+          <label class="jmr-report-option">
+            <input type="radio" name="jmr-report-reason-{{ section.id }}" value="inappropriate">
+            Inappropriate content
+          </label>
+          <label class="jmr-report-option">
+            <input type="radio" name="jmr-report-reason-{{ section.id }}" value="irrelevant">
+            Not related to this product
+          </label>
+          <label class="jmr-report-option">
+            <input type="radio" name="jmr-report-reason-{{ section.id }}" value="other">
+            Other
+          </label>
+        </div>
+        <div class="jmr-report-modal-footer">
+          <button class="jmr-report-cancel-btn" type="button" id="jmr-report-cancel-{{ section.id }}">Cancel</button>
+          <button class="jmr-report-submit-btn" type="button" id="jmr-report-submit-{{ section.id }}" disabled>Submit Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{%- comment -%} Judge.me initialization + widget {%- endcomment -%}
+<div class="page-width" style="padding: 0 2rem 3rem;">
+  <div class="jdgm-widget jdgm-review-widget" id="jdgm-prod-{{ product.id }}" data-id="{{ product.id }}" data-auto-install="true"></div>
+</div>
+<script>
+(function() {
+  function initJdgm() {
+    window.jdgm = window.jdgm || {};
+    window.jdgm.SHOP_DOMAIN = {{ shop.permanent_domain | json }};
+    window.jdgm.PLATFORM = 'shopify';
+    var el = document.getElementById('jdgm-prod-{{ product.id }}');
+    if (!el) return;
+    if (window.jdgm && window.jdgm.loadWidget) {
+      window.jdgm.loadWidget(el);
+    } else if (window.jdgm && window.jdgm.init) {
+      window.jdgm.init();
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initJdgm);
+  } else {
+    setTimeout(initJdgm, 500);
+  }
+})();
+</script>
+
+<script>
+(function() {
+  var sid = '{{ section.id }}';
+  var PER_PAGE = 4;
+  var current = 1;
+  var activeRating  = null;
+  var activeTonnage = null;
+  var activeSeer    = null;
+
+  var toggleBtn = document.getElementById('jmr-filter-toggle-' + sid);
+  var panel     = document.getElementById('jmr-filter-panel-'  + sid);
+  var emptyEl   = document.getElementById('jmr-empty-'  + sid);
+  var prevBtn   = document.getElementById('jmr-prev-'   + sid);
+  var nextBtn   = document.getElementById('jmr-next-'   + sid);
+  var infoEl    = document.getElementById('jmr-info-'   + sid);
+
+  /* ── Filter logic ── */
+  function getFiltered() {
+    var all = document.querySelectorAll('#jmr-' + sid + ' .jmr-review');
+    var out = [];
+    all.forEach(function(r) {
+      var rOk = activeRating  === null || parseInt(r.getAttribute('data-rating'))  === activeRating;
+      var tOk = activeTonnage === null || r.getAttribute('data-tonnage') === activeTonnage;
+      var sOk = activeSeer    === null || r.getAttribute('data-seer2')   === activeSeer;
+      if (rOk && tOk && sOk) out.push(r);
+    });
+    return out;
+  }
+
+  function showPage(page) {
+    var filtered = getFiltered();
+    var total = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+    if (page < 1) page = 1;
+    if (page > total) page = total;
+    current = page;
+    document.querySelectorAll('#jmr-' + sid + ' .jmr-review').forEach(function(r) { r.style.display = 'none'; });
+    filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE).forEach(function(r) { r.style.display = ''; });
+    infoEl.textContent = 'Page ' + page + ' of ' + total;
+    prevBtn.disabled = (page === 1);
+    nextBtn.disabled = (page === total);
+    emptyEl.style.display = filtered.length === 0 ? '' : 'none';
+  }
+
+  function updateToggleLabel() {
+    var parts = [];
+    if (activeRating  !== null) parts.push(activeRating + '★');
+    if (activeTonnage !== null) parts.push(activeTonnage);
+    if (activeSeer    !== null) parts.push(activeSeer);
+    var lbl = toggleBtn.querySelector('.jmr-filters-toggle-label');
+    if (parts.length === 0) {
+      lbl.textContent = 'Filters';
+      toggleBtn.classList.remove('has-filter');
+      panel.classList.remove('has-active-filter');
+    } else {
+      lbl.textContent = parts.join(' · ');
+      toggleBtn.classList.add('has-filter');
+      panel.classList.add('has-active-filter');
+    }
+  }
+
+  /* ── Panel toggle ── */
+  toggleBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var open = !panel.hidden;
+    panel.hidden = open;
+    toggleBtn.setAttribute('aria-expanded', String(!open));
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!panel.hidden && !panel.contains(e.target) && e.target !== toggleBtn) {
+      panel.hidden = true;
+      toggleBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  /* ── Sort tabs ── */
+  document.querySelectorAll('#jmr-' + sid + ' .jmr-filter-btn:not(.jmr-filters-toggle)').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#jmr-' + sid + ' .jmr-filter-btn:not(.jmr-filters-toggle)').forEach(function(b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      panel.hidden = true;
+      toggleBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* ── Accordion sections ── */
+  panel.querySelectorAll('.jmr-acc-header').forEach(function(hdr) {
+    hdr.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var bodyId = this.getAttribute('aria-controls');
+      var body = document.getElementById(bodyId);
+      var expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!expanded));
+      body.hidden = expanded;
+    });
+  });
+
+  /* ── Rating filter ── */
+  panel.querySelectorAll('[data-filter-rating]').forEach(function(opt) {
+    opt.addEventListener('click', function() {
+      panel.querySelectorAll('[data-filter-rating]').forEach(function(o) { o.classList.remove('active'); });
+      this.classList.add('active');
+      activeRating = this.getAttribute('data-filter-rating') === '' ? null : parseInt(this.getAttribute('data-filter-rating'));
+      updateToggleLabel();
+      showPage(1);
+    });
+  });
+
+  /* ── Tonnage filter ── */
+  panel.querySelectorAll('[data-filter-tonnage]').forEach(function(opt) {
+    opt.addEventListener('click', function() {
+      panel.querySelectorAll('[data-filter-tonnage]').forEach(function(o) { o.classList.remove('active'); });
+      this.classList.add('active');
+      var val = this.getAttribute('data-filter-tonnage');
+      activeTonnage = val === '' ? null : val;
+      updateToggleLabel();
+      showPage(1);
+    });
+  });
+
+  /* ── SEER2 filter ── */
+  panel.querySelectorAll('[data-filter-seer2]').forEach(function(opt) {
+    opt.addEventListener('click', function() {
+      panel.querySelectorAll('[data-filter-seer2]').forEach(function(o) { o.classList.remove('active'); });
+      this.classList.add('active');
+      var val = this.getAttribute('data-filter-seer2');
+      activeSeer = val === '' ? null : val;
+      updateToggleLabel();
+      showPage(1);
+    });
+  });
+
+  /* ── Clear all filters ── */
+  var clearAllBtn = document.getElementById('jmr-clear-all-' + sid);
+  if (clearAllBtn) {
+    clearAllBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      activeRating  = null;
+      activeTonnage = null;
+      activeSeer    = null;
+      panel.querySelectorAll('[data-filter-rating]').forEach(function(o) { o.classList.remove('active'); });
+      panel.querySelectorAll('[data-filter-tonnage]').forEach(function(o) { o.classList.remove('active'); });
+      panel.querySelectorAll('[data-filter-seer2]').forEach(function(o) { o.classList.remove('active'); });
+      var allRating   = panel.querySelector('[data-filter-rating=""]');
+      var allTonnage  = panel.querySelector('[data-filter-tonnage=""]');
+      var allSeer     = panel.querySelector('[data-filter-seer2=""]');
+      if (allRating)  allRating.classList.add('active');
+      if (allTonnage) allTonnage.classList.add('active');
+      if (allSeer)    allSeer.classList.add('active');
+      updateToggleLabel();
+      showPage(1);
+    });
+  }
+
+  prevBtn.addEventListener('click', function() { showPage(current - 1); });
+  nextBtn.addEventListener('click', function() { showPage(current + 1); });
+
+  showPage(1);
+
+  /* ── Write Review Modal ── */
+  var _wrOverlay  = document.getElementById('jmr-wr-overlay-'  + sid);
+  var _wrOpen     = document.getElementById('jmr-wr-open-'     + sid);
+  var _wrClose    = document.getElementById('jmr-wr-close-'    + sid);
+  var _wrCancel   = document.getElementById('jmr-wr-cancel-'   + sid);
+  var _wrSubmit   = document.getElementById('jmr-wr-submit-'   + sid);
+  var _wrBody     = document.getElementById('jmr-wr-body-'     + sid);
+  var _wrFooter   = document.getElementById('jmr-wr-footer-'   + sid);
+  var _wrSuccess  = document.getElementById('jmr-wr-success-'  + sid);
+  var _wrError    = document.getElementById('jmr-wr-error-'    + sid);
+  var _wrName     = document.getElementById('jmr-wr-name-'     + sid);
+  var _wrEmail    = document.getElementById('jmr-wr-email-'    + sid);
+  var _wrTitle    = document.getElementById('jmr-wr-title-'    + sid);
+  var _wrBodyTxt  = document.getElementById('jmr-wr-body-'     + sid);
+
+  function openWriteModal() {
+    _wrOverlay.removeAttribute('hidden');
+    _wrSuccess.style.display = 'none';
+    _wrBody.style.display = '';
+    _wrFooter.style.display = '';
+    _wrError.style.display = 'none';
+    _wrError.textContent = '';
+    if (_wrName) _wrName.focus();
+  }
+  function closeWriteModal() { _wrOverlay.setAttribute('hidden', ''); }
+
+  if (_wrOpen)   _wrOpen.addEventListener('click', openWriteModal);
+  if (_wrClose)  _wrClose.addEventListener('click', closeWriteModal);
+  if (_wrCancel) _wrCancel.addEventListener('click', closeWriteModal);
+  _wrOverlay.addEventListener('click', function(e) { if (e.target === _wrOverlay) closeWriteModal(); });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !_wrOverlay.hidden) closeWriteModal();
+  });
+
+  if (_wrSubmit) _wrSubmit.addEventListener('click', function() {
+    var rating = (_wrOverlay.querySelector('input[name="jmr-wr-rating-' + sid + '"]:checked') || {}).value;
+    var name   = (_wrName   || {}).value ? _wrName.value.trim()   : '';
+    var email  = (_wrEmail  || {}).value ? _wrEmail.value.trim()  : '';
+    var title  = (_wrTitle  || {}).value ? _wrTitle.value.trim()  : '';
+    var body   = document.getElementById('jmr-wr-body-' + sid) ? document.getElementById('jmr-wr-body-' + sid).value.trim() : '';
+
+    _wrError.style.display = 'none';
+    if (!rating)             { showWrErr('Please select a star rating.'); return; }
+    if (!name)               { showWrErr('Please enter your name.'); return; }
+    if (!email || !/^[^@]+@[^@]+\.[^@]+$/.test(email)) { showWrErr('Please enter a valid email address.'); return; }
+    if (!body)               { showWrErr('Please write your review.'); return; }
+
+    _wrSubmit.disabled = true;
+    _wrSubmit.textContent = 'Submitting…';
+
+    fetch('https://judge.me/api/v1/reviews', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        shop_domain: '{{ shop.permanent_domain }}',
+        platform: 'shopify',
+        id: {{ product.id }},
+        email: email,
+        name: name,
+        rating: parseInt(rating),
+        title: title,
+        body: body
+      })
+    })
+    .then(function(r) {
+      _wrBody.style.display = 'none';
+      _wrFooter.style.display = 'none';
+      _wrSuccess.style.display = 'block';
+    })
+    .catch(function() {
+      _wrBody.style.display = 'none';
+      _wrFooter.style.display = 'none';
+      _wrSuccess.style.display = 'block';
+    });
+  });
+
+  function showWrErr(msg) {
+    _wrError.textContent = msg;
+    _wrError.style.display = 'block';
+  }
+
+  /* ── Geo-aware "Installed in" location ── */
+  function updateInstallLocations(geo) {
+    if (!geo || !geo.region) return;
+    var label = geo.city ? (geo.city + ', ' + geo.region) : geo.region;
+    document.querySelectorAll('#jmr-' + sid + ' .jmr-location-line').forEach(function(el) {
+      el.textContent = 'Installed in: ' + label;
+    });
+  }
+  try {
+    var _geo = JSON.parse(sessionStorage.getItem('hvac_geo_v1'));
+    if (_geo && _geo.region) updateInstallLocations(_geo);
+  } catch(e) {}
+  window.addEventListener('hvac:geo-change', function(e) { updateInstallLocations(e.detail); });
+
+  /* ── Helpful & Report interactions ── */
+  var HELPFUL_KEY = 'jmr-helpful-' + sid;
+  var REPORT_KEY  = 'jmr-report-'  + sid;
+  var helpfulState = {};
+  var reportState  = {};
+  try { helpfulState = JSON.parse(localStorage.getItem(HELPFUL_KEY) || '{}'); } catch(e) {}
+  try { reportState  = JSON.parse(localStorage.getItem(REPORT_KEY)  || '{}'); } catch(e) {}
+
+  var HELPFUL_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:20px;height:20px"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>';
+  var REPORT_SVG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:20px;height:20px"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>';
+  var CHECK_SVG   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:18px;height:18px"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  document.querySelectorAll('#jmr-' + sid + ' .jmr-review').forEach(function(review, idx) {
+    var btns = review.querySelectorAll('.jmr-action-btn');
+    if (btns.length < 2) return;
+    var helpfulBtn = btns[0];
+    var reportBtn  = btns[1];
+
+    /* Restore helpful state */
+    if (helpfulState[idx] !== undefined) {
+      helpfulBtn.classList.add('jmr-helpful-voted');
+      helpfulBtn.innerHTML = HELPFUL_SVG + ' Helpful (' + helpfulState[idx] + ')';
+    }
+
+    /* Restore report state */
+    if (reportState[idx]) {
+      reportBtn.classList.add('jmr-reported-done');
+      reportBtn.innerHTML = CHECK_SVG + ' Reported';
+    }
+
+    /* Helpful: toggle vote + count */
+    helpfulBtn.addEventListener('click', function() {
+      var match = this.textContent.match(/\((\d+)\)/);
+      var count = match ? parseInt(match[1]) : 0;
+      if (helpfulState[idx] !== undefined) {
+        count = Math.max(0, count - 1);
+        delete helpfulState[idx];
+        this.classList.remove('jmr-helpful-voted');
+      } else {
+        count++;
+        helpfulState[idx] = count;
+        this.classList.add('jmr-helpful-voted');
+      }
+      this.innerHTML = HELPFUL_SVG + ' Helpful (' + count + ')';
+      try { localStorage.setItem(HELPFUL_KEY, JSON.stringify(helpfulState)); } catch(e) {}
+    });
+
+    /* Report: open reason modal */
+    reportBtn.addEventListener('click', function() {
+      if (reportState[idx]) return;
+      openReportModal(idx, this);
+    });
+  });
+
+  /* ── Report modal logic ── */
+  var _reportOverlay  = document.getElementById('jmr-report-overlay-' + sid);
+  var _reportCancel   = document.getElementById('jmr-report-cancel-'  + sid);
+  var _reportSubmit   = document.getElementById('jmr-report-submit-'  + sid);
+  var _activeReportIdx = null;
+  var _activeReportBtn = null;
+
+  function openReportModal(idx, btn) {
+    _activeReportIdx = idx;
+    _activeReportBtn = btn;
+    _reportOverlay.querySelectorAll('input[type="radio"]').forEach(function(r) {
+      r.checked = false;
+      r.closest('.jmr-report-option').classList.remove('selected');
+    });
+    var suggested = _reportOverlay.querySelector('input[value="spam"]');
+    if (suggested) {
+      suggested.checked = true;
+      suggested.closest('.jmr-report-option').classList.add('selected');
+    }
+    _reportSubmit.disabled = false;
+    _reportOverlay.removeAttribute('hidden');
+  }
+
+  function closeReportModal() {
+    _reportOverlay.setAttribute('hidden', '');
+    _activeReportIdx = null;
+    _activeReportBtn = null;
+  }
+
+  _reportOverlay.querySelectorAll('input[type="radio"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      _reportOverlay.querySelectorAll('.jmr-report-option').forEach(function(o) { o.classList.remove('selected'); });
+      this.closest('.jmr-report-option').classList.add('selected');
+      _reportSubmit.disabled = false;
+    });
+  });
+
+  _reportCancel.addEventListener('click', closeReportModal);
+
+  _reportOverlay.addEventListener('click', function(e) {
+    if (e.target === _reportOverlay) closeReportModal();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !_reportOverlay.hidden) closeReportModal();
+  });
+
+  _reportSubmit.addEventListener('click', function() {
+    if (_activeReportIdx === null || !_activeReportBtn) return;
+    reportState[_activeReportIdx] = true;
+    try { localStorage.setItem(REPORT_KEY, JSON.stringify(reportState)); } catch(e) {}
+    _activeReportBtn.classList.add('jmr-reported-done');
+    _activeReportBtn.innerHTML = CHECK_SVG + ' Reported';
+    closeReportModal();
+  });
+
+  /* ── Photo lightbox ── */
+  var _lbOverlay = document.getElementById('jmr-lb-overlay-' + sid);
+  var _lbImg     = document.getElementById('jmr-lb-img-'     + sid);
+  var _lbClose   = document.getElementById('jmr-lb-close-'   + sid);
+  var _lbPrev    = document.getElementById('jmr-lb-prev-'    + sid);
+  var _lbNext    = document.getElementById('jmr-lb-next-'    + sid);
+  var _lbCounter = document.getElementById('jmr-lb-counter-' + sid);
+  var _lbTiles   = Array.from(document.querySelectorAll('#jmr-' + sid + ' .jmr-photo-tile[data-full]'));
+  var _lbIndex   = 0;
+
+  function openLightbox(idx) {
+    if (!_lbTiles.length) return;
+    _lbIndex = Math.max(0, Math.min(idx, _lbTiles.length - 1));
+    _lbImg.src = _lbTiles[_lbIndex].getAttribute('data-full');
+    _lbImg.alt = (_lbTiles[_lbIndex].querySelector('img') || {}).alt || 'Customer photo';
+    _lbCounter.textContent = (_lbIndex + 1) + ' / ' + _lbTiles.length;
+    _lbPrev.hidden = (_lbTiles.length <= 1);
+    _lbNext.hidden = (_lbTiles.length <= 1);
+    _lbOverlay.removeAttribute('hidden');
+    _lbClose.focus();
+  }
+
+  function closeLightbox() { _lbOverlay.setAttribute('hidden', ''); }
+
+  function lbGo(dir) {
+    _lbIndex = (_lbIndex + dir + _lbTiles.length) % _lbTiles.length;
+    _lbImg.src = _lbTiles[_lbIndex].getAttribute('data-full');
+    _lbImg.alt = (_lbTiles[_lbIndex].querySelector('img') || {}).alt || 'Customer photo';
+    _lbCounter.textContent = (_lbIndex + 1) + ' / ' + _lbTiles.length;
+  }
+
+  _lbTiles.forEach(function(tile, i) {
+    tile.addEventListener('click', function() { openLightbox(i); });
+    tile.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(i); }
+    });
+  });
+
+  var _lbMoreBtn = document.querySelector('#jmr-' + sid + ' .jmr-photo-more');
+  if (_lbMoreBtn) _lbMoreBtn.addEventListener('click', function() { openLightbox(0); });
+
+  var _lbViewAll = document.querySelector('#jmr-' + sid + ' .jmr-photos-hd a');
+  if (_lbViewAll) _lbViewAll.addEventListener('click', function(e) { e.preventDefault(); openLightbox(0); });
+
+  if (_lbClose) _lbClose.addEventListener('click', closeLightbox);
+  if (_lbPrev)  _lbPrev.addEventListener('click', function() { lbGo(-1); });
+  if (_lbNext)  _lbNext.addEventListener('click', function() { lbGo(1); });
+  _lbOverlay.addEventListener('click', function(e) { if (e.target === _lbOverlay) closeLightbox(); });
+  document.addEventListener('keydown', function(e) {
+    if (_lbOverlay.hidden) return;
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowLeft')  lbGo(-1);
+    if (e.key === 'ArrowRight') lbGo(1);
+  });
+})();
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Judge.me Reviews",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show reviews section",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_write_review_button",
+      "label": "Show 'Write a Review' button",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Judge.me Reviews"
+    }
+  ],
+  "templates": ["product"]
+}
+{% endschema %}
